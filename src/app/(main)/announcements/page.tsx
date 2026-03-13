@@ -21,7 +21,7 @@ interface Announcement {
 }
 
 export default function AnnouncementsPage() {
-  const [announcements] = useState<Announcement[]>([
+  const [announcements, setAnnouncements] = useState<Announcement[]>([
     {
       id: 1,
       title: "Sunday Service Update",
@@ -48,7 +48,7 @@ export default function AnnouncementsPage() {
       id: 4,
       title: "Lorem Ipsum is simply dummy text",
       content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
       type: "Text",
       date: "2024-02-22",
     },
@@ -86,6 +86,25 @@ export default function AnnouncementsPage() {
   }, []);
 
   const selectedAnnouncement = announcements[selectedIndex];
+
+  /* ---------------- ADD ANNOUNCEMENT ---------------- */
+
+  const handleAddAnnouncement = (data: {
+    title: string;
+    text: string;
+    type: "Text" | "Image" | "Video";
+  }) => {
+    const newAnnouncement: Announcement = {
+      id: Date.now(),
+      title: data.title || "New Announcement",
+      content: data.text || "",
+      type: data.type,
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    setAnnouncements((prev) => [newAnnouncement, ...prev]);
+    setSelectedIndex(0);
+  };
 
   const handlePresent = () => {
     const session = getOrCreateSession();
@@ -230,7 +249,6 @@ export default function AnnouncementsPage() {
                 </p>
               </div>
 
-              {/* Buttons */}
               <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
                 <button
                   onClick={handlePresent}
@@ -250,7 +268,7 @@ export default function AnnouncementsPage() {
         {isModalOpen && (
           <AddAnnouncementModal
             onClose={() => setIsModalOpen(false)}
-            onSave={() => {}}
+            onSave={handleAddAnnouncement}
           />
         )}
       </div>

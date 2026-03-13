@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
           <button
             onClick={() => setIsLiveOpen(true)}
-            className="px-4 md:px-6 py-2 md:py-2.5 bg-orange-600 text-white rounded-xl text-xs md:text-sm font-semibold hover:bg-orange-700 transition-all shadow-lg shadow-orange-600/20"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-orange-600 text-white rounded-xl text-xs md:text-sm font-semibold hover:bg-orange-700 transition-all shadow-lg shadow-orange-600/20 sm:ml-0 ml-[56px]"
           >
             Join Session
           </button>
@@ -254,6 +254,8 @@ export default function DashboardPage() {
           </div>
         </>
       )}
+
+      <div className="lg:col-span-2"></div>
 
       {isLiveOpen && <LiveSessionView onClose={() => setIsLiveOpen(false)} />}
     </div>

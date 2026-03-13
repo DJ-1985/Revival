@@ -65,7 +65,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f2f5f8] flex flex-col items-center justify-center relative overflow-hidden text-white">
+    <div className="min-h-screen bg-[#eef2f6] flex flex-col items-center justify-center relative overflow-hidden text-white">
       {/* Background Image */}
 
       <motion.div

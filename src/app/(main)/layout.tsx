@@ -115,7 +115,7 @@ export default function DashboardLayout({
   if (!isChecked) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex text-gray-900 overflow-hidden relative">
+    <div className="min-h-screen bg-[#eef2f6] flex text-gray-900 overflow-hidden relative">
       {/* Sidebar */}
       <Sidebar
         isSidebarOpen={isSidebarOpen}
@@ -126,7 +126,7 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
-        <main className="flex-1 overflow-y-auto p-3 md:p-8 bg-gray-50/50">
+        <main className="flex-1 overflow-y-auto p-3 md:p-8 bg-[#eef2f6]">
           <div className="max-w-6xl mx-auto h-full">{children}</div>
         </main>
       </div>
