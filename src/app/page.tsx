@@ -193,7 +193,7 @@ export default function LoginPage() {
       </motion.div>
 
       {/* Footer */}
-      <footer className="mt-6 mb-6 text-[10px] uppercase tracking-[0.3em] font-medium z-10">
+      <footer className="mt-6 mb-6 text-[10px] uppercase tracking-[0.3em] font-medium z-10 text-gray-500">
         © {new Date().getFullYear()} Church Presentation
       </footer>
     </div>
