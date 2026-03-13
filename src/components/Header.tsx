@@ -3,7 +3,7 @@
 import { Menu, UserCircle, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 export default function Header({
   setIsSidebarOpen,
 }: {
@@ -78,9 +78,9 @@ export default function Header({
   };
 
   return (
-    <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 md:px-6 z-20">
+    <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-2 md:px-6 z-20">
       {/* Left */}
-      <div className="flex items-center space-x-2 md:space-x-4">
+      <div className="flex items-center space-x-1 md:space-x-4">
         <button
           onClick={() => setIsSidebarOpen((prev) => !prev)}
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
@@ -88,16 +88,28 @@ export default function Header({
           <Menu size={20} />
         </button>
 
-        <h2 className="hidden sm:block text-base md:text-lg font-semibold text-gray-800 truncate">
+        <h2 className="hidden lg:block text-base md:text-lg font-semibold text-gray-800 truncate">
           {title}
         </h2>
+        <div className="max-w-[130px] lg:hidden block">
+          <Image
+            src="/revival-centres-logo.svg"
+            alt="Logo"
+            width={130}
+            height={26}
+            priority
+          />
+        </div>
       </div>
 
       {/* Right */}
-      <div className="flex items-center space-x-3 md:space-x-6 relative">
+      <div className="flex items-center space-x-1.5 md:space-x-6 relative">
         {/* Church + Role */}
         <div className="flex flex-col items-end">
-          <span className="text-xs md:text-sm font-semibold text-gray-900">
+          <span
+            className="text-xs md:text-sm font-semibold text-gray-900 max-w-[120px] whitespace-nowrap overflow-hidden text-ellipsis 
+md:max-w-none md:whitespace-normal md:overflow-visible"
+          >
             {church || "Church"}
           </span>
 
