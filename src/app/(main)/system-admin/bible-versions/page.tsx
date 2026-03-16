@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, X } from "lucide-react";
+import { Plus, Trash2, X, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 interface BibleVersion {
   id: number;
@@ -131,6 +131,31 @@ export default function BibleVersionsPage() {
                   onChange={(e) => setNewVersion(e.target.value)}
                   className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                 />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                  Upload Bible
+                </label>
+
+                <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-orange-400 transition">
+                  <Upload size={32} className="text-gray-400 mb-2" />
+
+                  <p className="text-sm font-medium text-gray-700">
+                    Drag & drop song file
+                  </p>
+
+                  <p className="text-xs text-gray-400">or click to upload</p>
+
+                  <input
+                    type="file"
+                    accept=".mp3,.wav,.aac"
+                    className="hidden"
+                  />
+                </label>
+
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+                  Supported formats: .xls,.xlsx,.csv
+                </p>
               </div>
             </div>
 

@@ -111,7 +111,6 @@ export default function ChurchesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="md:text-xl font-bold text-gray-800">Churches</h2>
-
         <button
           onClick={openAddModal}
           className="flex items-center space-x-2 bg-orange-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-700"

@@ -25,7 +25,19 @@ export default function GlobalSongsPage() {
 
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
+
+  const [number, setNumber] = useState("");
+  const [author, setAuthor] = useState("");
+  const [scripture, setScripture] = useState("");
+  const [copyright, setCopyright] = useState("");
+  const [cclinum, setCclinum] = useState("");
+  const [key, setKey] = useState("");
+
+  const [elements, setElements] = useState<string[]>([""]);
+
   const [sheets, setSheets] = useState<Sheet[]>([]);
+
+  const [activeTab, setActiveTab] = useState<"details" | "file">("details");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -34,8 +46,16 @@ export default function GlobalSongsPage() {
   const resetForm = () => {
     setTitle("");
     setArtist("");
+    setNumber("");
+    setAuthor("");
+    setScripture("");
+    setCopyright("");
+    setCclinum("");
+    setKey("");
+    setElements([""]);
     setSheets([]);
     setEditingSongId(null);
+    setActiveTab("details");
   };
 
   const addSong = () => {
@@ -87,6 +107,20 @@ export default function GlobalSongsPage() {
     setSheets((prev) => prev.filter((f) => f.id !== id));
   };
 
+  const addElement = () => {
+    setElements((prev) => [...prev, ""]);
+  };
+
+  const updateElement = (index: number, value: string) => {
+    const updated = [...elements];
+    updated[index] = value;
+    setElements(updated);
+  };
+
+  const removeElement = (index: number) => {
+    setElements((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const openEditModal = (song: Song) => {
     setEditingSongId(song.id);
     setTitle(song.title);
@@ -119,15 +153,15 @@ export default function GlobalSongsPage() {
           <table className="w-full text-left">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase min-w-[150px]">
+                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Song Title
                 </th>
 
-                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase min-w-[150px]">
+                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Artist
                 </th>
 
-                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase min-w-[150px]">
+                <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Music Sheet
                 </th>
 
@@ -186,98 +220,179 @@ export default function GlobalSongsPage() {
             transition={{ duration: 0.25 }}
             className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
+            {/* Header */}
             <div className="p-4 md:p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
               <h3 className="text-lg md:text-xl font-bold text-gray-900">
-                {isEditModalOpen ? "Edit Song" : "Add Song"}
+                Add Song
               </h3>
 
               <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setIsEditModalOpen(false);
-                }}
+                onClick={() => setIsModalOpen(false)}
                 className="p-2 hover:bg-gray-200 rounded-full text-gray-500"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <div className="p-4 md:p-6 space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                  Song Title
-                </label>
+            {/* Tabs */}
+            <div className="flex border-b border-gray-100">
+              <button
+                onClick={() => setActiveTab("details")}
+                className={`flex-1 py-3 text-sm font-semibold ${
+                  activeTab === "details"
+                    ? "text-orange-600 border-b-2 border-orange-600"
+                    : "text-gray-500"
+                }`}
+              >
+                Manual Entry
+              </button>
 
-                <input
-                  type="text"
-                  placeholder="Song Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none"
-                />
-              </div>
+              <button
+                onClick={() => setActiveTab("file")}
+                className={`flex-1 py-3 text-sm font-semibold ${
+                  activeTab === "file"
+                    ? "text-orange-600 border-b-2 border-orange-600"
+                    : "text-gray-500"
+                }`}
+              >
+                Upload File
+              </button>
+            </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                  Artist / Composer
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Artist / Composer"
-                  value={artist}
-                  onChange={(e) => setArtist(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none"
-                />
-              </div>
-
-              {isEditModalOpen ? (
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                    Music Sheet
-                  </label>
-
-                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-orange-400 transition">
-                    <Upload size={32} className="text-gray-400 mb-2" />
-
-                    <p className="text-sm font-medium text-gray-700">
-                      Drag & drop file here
-                    </p>
-
-                    <p className="text-xs text-gray-400">or click to upload</p>
+            {/* Scrollable Content */}
+            <div className="p-4 md:p-6 space-y-6 overflow-y-auto max-h-[65vh]">
+              {activeTab === "details" && (
+                <div className="space-y-6">
+                  {/* Number */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Number
+                    </label>
 
                     <input
-                      type="file"
-                      multiple
-                      accept=".xls,.xlsx,.csv"
-                      onChange={(e) => handleFileUpload(e.target.files)}
-                      className="hidden"
+                      type="text"
+                      placeholder="Number"
+                      value={number}
+                      onChange={(e) => setNumber(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
-                  </label>
+                  </div>
 
-                  <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                    Supported formats: xls, xlsx, csv
-                  </p>
-
+                  {/* Title */}
                   <div className="space-y-2">
-                    {sheets.map((file) => (
-                      <div
-                        key={file.id}
-                        className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg text-sm"
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Title
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                  </div>
+
+                  {/* Author */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Author
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Author"
+                      value={author}
+                      onChange={(e) => setAuthor(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                  </div>
+
+                  {/* Scripture */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Scripture
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Scripture"
+                      value={scripture}
+                      onChange={(e) => setScripture(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                  </div>
+
+                  {/* copyright */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Copyright
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Copyright"
+                      value={scripture}
+                      onChange={(e) => setScripture(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                  </div>
+
+                  {/* cclinum */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                      Cclinum
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Cclinum"
+                      value={scripture}
+                      onChange={(e) => setScripture(e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                  </div>
+
+                  {/* Elements */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                        Verses
+                      </label>
+
+                      <button
+                        type="button"
+                        onClick={addElement}
+                        className="flex items-center text-orange-600 text-xs font-semibold"
                       >
-                        <span>{file.name}</span>
+                        <Plus size={14} className="mr-1" />
+                        Add
+                      </button>
+                    </div>
+
+                    {elements.map((el, index) => (
+                      <div key={index} className="flex gap-2">
+                        <input
+                          type="text"
+                          value={el}
+                          onChange={(e) => updateElement(index, e.target.value)}
+                          placeholder="Element"
+                          className="flex-1 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        />
 
                         <button
-                          onClick={() => removeSheet(file.id)}
+                          onClick={() => removeElement(index)}
                           className="text-gray-400 hover:text-red-500"
                         >
-                          <X size={16} />
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     ))}
                   </div>
                 </div>
-              ) : (
+              )}
+
+              {activeTab === "file" && (
                 <div className="space-y-3">
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                     Song File
@@ -300,28 +415,26 @@ export default function GlobalSongsPage() {
                   </label>
 
                   <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                    Supported formats: mp3, wav, aac
+                    Supported formats: .xls,.xlsx,.csv
                   </p>
                 </div>
               )}
             </div>
 
+            {/* Footer */}
             <div className="p-4 md:p-6 border-t border-gray-100 flex justify-end space-x-4 bg-gray-50/30">
               <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setIsEditModalOpen(false);
-                }}
+                onClick={() => setIsModalOpen(false)}
                 className="px-6 py-2.5 text-sm font-bold text-gray-500"
               >
                 Cancel
               </button>
 
               <button
-                onClick={isEditModalOpen ? updateSong : addSong}
+                onClick={addSong}
                 className="px-8 py-2.5 bg-orange-600 text-white rounded-xl text-sm font-bold hover:bg-orange-700 shadow-xl shadow-orange-600/30"
               >
-                {isEditModalOpen ? "Update Song" : "Save Song"}
+                Save Song
               </button>
             </div>
           </motion.div>
