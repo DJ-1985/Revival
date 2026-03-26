@@ -32,9 +32,12 @@ export default function AnnouncementProjectionScreen({
 
   return (
     <div className="fixed inset-0 z-[999] bg-white flex flex-col">
-
       {!isBlank ? (
         <div className="flex-1 flex flex-col overflow-y-auto">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-[10px] opacity-70 -z-10"
+            style={{ backgroundImage: "url('/login-bg.webp')" }}
+          />
           {/* Content Area */}
           <div className="flex-1 flex flex-col items-center justify-center text-center px-6 md:px-20 lg:px-40 py-20 space-y-16">
             {/* Small Top Label */}

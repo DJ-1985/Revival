@@ -188,7 +188,6 @@ export default function ChurchesPage() {
                     >
                       <Pencil size={18} />
                     </button>
-
                     <button
                       onClick={() => deleteChurch(church.id)}
                       className="text-gray-400 hover:text-red-500"
