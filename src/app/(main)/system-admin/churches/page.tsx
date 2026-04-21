@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Trash2, Pencil, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Trash2, Pencil, X, Search } from "lucide-react";
 import { motion } from "framer-motion";
+
 interface Church {
   id: string;
   name: string;
@@ -36,6 +37,27 @@ export default function ChurchesPage() {
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const totalItems = churches.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  const paginatedChurches = churches.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  // Page fix after delete
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
+  }, [churches]);
 
   const resetForm = () => {
     setChurchName("");
@@ -109,15 +131,32 @@ export default function ChurchesPage() {
   return (
     <div className="flex flex-col space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="md:text-xl font-bold text-gray-800">Churches</h2>
-        <button
-          onClick={openAddModal}
-          className="flex items-center space-x-2 bg-orange-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-700"
-        >
-          <Plus size={18} />
-          <span className="text-sm">Add Church</span>
-        </button>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <h2 className="text-base md:text-xl font-bold text-gray-800">
+          Churches
+        </h2>
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto">
+          <div className="relative w-full sm:w-[220px]">
+            <Search
+              size={18}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search church"
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+            />
+          </div>
+
+          <button
+            onClick={openAddModal}
+            className="flex items-center justify-center space-x-2 bg-orange-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-700 w-full sm:w-auto"
+          >
+            <Plus size={18} />
+            <span className="text-sm">Add Church</span>
+          </button>
+        </div>
       </div>
 
       {/* Table */}
@@ -129,19 +168,24 @@ export default function ChurchesPage() {
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   S.No
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase min-w-[200px]">
-                  Church Name
+                  <span className="flex items-center gap-2">
+                    Church Name
+                    <span className="text-[10px] text-gray-400">⇅</span>
+                  </span>
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
-                  CCLI
+                  <span className="flex items-center gap-2">
+                    CCLI
+                    <span className="text-[10px] text-gray-400">⇅</span>
+                  </span>
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
-                  Status
+                  <span className="flex items-center gap-2">
+                    Status
+                    <span className="text-[10px] text-gray-400">⇅</span>
+                  </span>
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase text-right">
                   Actions
                 </th>
@@ -149,24 +193,20 @@ export default function ChurchesPage() {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-              {churches.map((church, index) => (
+              {paginatedChurches.map((church, index) => (
                 <tr key={church.id} className="hover:bg-gray-50">
-                  {/* S.NO */}
                   <td className="px-3 md:px-6 py-2 md:py-4 text-sm text-gray-600">
-                    {index + 1}
+                    {startIndex + index + 1}
                   </td>
 
-                  {/* Name */}
                   <td className="px-3 md:px-6 py-2 md:py-4 text-sm text-gray-700">
                     {church.name}
                   </td>
 
-                  {/* CCLI */}
                   <td className="px-3 md:px-6 py-2 md:py-4 text-sm text-gray-500">
                     {church.ccli}
                   </td>
 
-                  {/* Status */}
                   <td className="px-3 md:px-6 py-2 md:py-4">
                     <button
                       onClick={() => toggleStatus(church.id)}
@@ -180,7 +220,6 @@ export default function ChurchesPage() {
                     </button>
                   </td>
 
-                  {/* Actions */}
                   <td className="px-3 md:px-6 py-2 md:py-4 flex justify-end space-x-3">
                     <button
                       onClick={() => openEditModal(church)}
@@ -199,6 +238,49 @@ export default function ChurchesPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-3 md:px-6 py-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500">
+            Showing {totalItems === 0 ? 0 : startIndex + 1} to{" "}
+            {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{" "}
+            entries
+          </p>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 text-gray-400 disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1.5 text-sm rounded-lg ${
+                  currentPage === i + 1
+                    ? "bg-orange-600 text-white"
+                    : "border border-gray-200 text-gray-500"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 text-gray-400 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
 

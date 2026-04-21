@@ -13,9 +13,11 @@ import {
   Activity,
   LogOut,
   X,
-  Building2,
+  Church,
   Book,
   ListMusic,
+  Mail,
+  ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -32,7 +34,8 @@ const mainNavItems = [
 ];
 
 const systemAdminNav = [
-  { name: "Churches", href: "/system-admin/churches", icon: Building2 },
+  { name: "Church", href: "/system-admin/churches", icon: Church },
+  { name: "Email Template", href: "/system-admin/email-template", icon: Mail },
   { name: "Bible Versions", href: "/system-admin/bible-versions", icon: Book },
   { name: "Songs", href: "/system-admin/songs", icon: ListMusic },
 ];
@@ -47,11 +50,16 @@ export default function Sidebar({
   const pathname = usePathname();
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
-
+  const [isSystemAdminOpen, setIsSystemAdminOpen] = useState(false);
   useEffect(() => {
     const role = localStorage.getItem("userRole");
     setUserRole(role);
   }, []);
+  useEffect(() => {
+    if (pathname.startsWith("/system-admin")) {
+      setIsSystemAdminOpen(true);
+    }
+  }, [pathname]);
 
   // Main role-based filtering
   const navItems = mainNavItems.filter((item) => {
@@ -72,9 +80,7 @@ export default function Sidebar({
 
       case "General User":
         return (
-          item.name === "Dashboard" ||
-          item.name === "Scripture" ||
-          item.name === "Lyrics"
+          item.name === "Dashboard" || item.name === "Scripture" || item.name === "Lyrics"
         );
 
       default:
@@ -143,35 +149,41 @@ export default function Sidebar({
         {/* SYSTEM ADMIN SECTION */}
         {userRole === "System Admin" && (
           <>
-            <div className="pt-6 pb-2 px-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
-              System Admin
-            </div>
+            <button
+              onClick={() => setIsSystemAdminOpen(!isSystemAdminOpen)}
+              className="w-full flex items-center justify-between px-4 pt-6 pb-2 text-xs font-bold uppercase tracking-widest transition text-gray-400"
+            >
+              <span>System Admin</span>
+              <span className={isSystemAdminOpen ? "rotate-180" : ""}>
+                <ChevronDown size={16} />
+              </span>
+            </button>
 
-            {systemAdminNav.map((item) => {
-              const isActive =
-                pathname === item.href || pathname.startsWith(item.href);
+            {isSystemAdminOpen &&
+              systemAdminNav.map((item) => {
+                const isActive =
+                  pathname === item.href || pathname.startsWith(item.href);
 
-              return (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    router.push(item.href);
-
-                    if (window.innerWidth < 1024) {
-                      setIsSidebarOpen(false);
-                    }
-                  }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                    isActive
-                      ? "bg-orange-600 text-white shadow-lg shadow-orange-600/20"
-                      : "text-gray-500 hover:bg-orange-50 hover:text-orange-600"
-                  }`}
-                >
-                  <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                  <span className="font-medium text-sm">{item.name}</span>
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => {
+                      router.push(item.href);
+                      if (window.innerWidth < 1024) {
+                        setIsSidebarOpen(false);
+                      }
+                    }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                      isActive
+                        ? "bg-orange-600 text-white shadow-lg shadow-orange-600/20"
+                        : "text-gray-500 hover:bg-orange-50 hover:text-orange-600"
+                    }`}
+                  >
+                    <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                    <span className="font-medium text-sm">{item.name}</span>
+                  </button>
+                );
+              })}
           </>
         )}
       </nav>

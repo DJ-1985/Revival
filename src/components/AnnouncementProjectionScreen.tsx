@@ -35,7 +35,7 @@ export default function AnnouncementProjectionScreen({
       {!isBlank ? (
         <div className="flex-1 flex flex-col overflow-y-auto">
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-[10px] opacity-70 -z-10"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-10 blur-[10px] opacity-70"
             style={{ backgroundImage: "url('/login-bg.webp')" }}
           />
           {/* Content Area */}
@@ -44,7 +44,6 @@ export default function AnnouncementProjectionScreen({
             <p className="tracking-[0.4em] text-xs md:text-sm text-gray-400 font-semibold uppercase">
               Announcement
             </p>
-
             {/* Main Content */}
             <div className="max-w-6xl">
               <p className="text-2xl md:text-5xl lg:text-6xl font-semibold leading-snug text-gray-900 whitespace-pre-line">

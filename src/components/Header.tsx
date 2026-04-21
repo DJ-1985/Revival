@@ -2,8 +2,9 @@
 
 import { Menu, UserCircle, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+
 export default function Header({
   setIsSidebarOpen,
 }: {
@@ -14,6 +15,9 @@ export default function Header({
   const [role, setRole] = useState<string | null>(null);
   const [church, setChurch] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // NEW: ref for dropdown
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Dynamic Title
   const getTitleFromPath = () => {
@@ -56,6 +60,24 @@ export default function Header({
 
     return () => {
       window.removeEventListener("storage", updateSessionState);
+    };
+  }, []);
+
+  // NEW: Outside click handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -122,8 +144,9 @@ md:max-w-none md:whitespace-normal md:overflow-visible"
           )}
         </div>
 
-        {/* User Icon */}
-        <div className="relative">
+        {/* User Icon + Dropdown */}
+        {/* IMPORTANT: ref added here */}
+        <div className="relative" ref={dropdownRef}>
           <div
             onClick={() => setIsDropdownOpen((prev) => !prev)}
             className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 border border-gray-200 cursor-pointer"
@@ -134,6 +157,16 @@ md:max-w-none md:whitespace-normal md:overflow-visible"
           {/* Dropdown */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50">
+              <button
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  router.push("/profile");
+                }}
+                className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+              >
+                <UserCircle size={16} />
+                <span>Profile</span>
+              </button>
               <button
                 onClick={handleLogout}
                 className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"

@@ -37,6 +37,12 @@ export default function PresentationsPage() {
         { id: 1, url: "https://picsum.photos/600/400?1" },
         { id: 2, url: "https://picsum.photos/600/400?2" },
         { id: 3, url: "https://picsum.photos/600/400?3" },
+        { id: 4, url: "https://picsum.photos/600/400?1" },
+        { id: 5, url: "https://picsum.photos/600/400?2" },
+        { id: 6, url: "https://picsum.photos/600/400?3" },
+        { id: 7, url: "https://picsum.photos/600/400?1" },
+        { id: 8, url: "https://picsum.photos/600/400?2" },
+        { id: 9, url: "https://picsum.photos/600/400?3" },
       ],
     },
     {
@@ -61,12 +67,10 @@ export default function PresentationsPage() {
 
   const getOrCreateSession = () => {
     let session = localStorage.getItem("liveSessionId");
-
     if (!session) {
       session = "session_" + Date.now();
       localStorage.setItem("liveSessionId", session);
     }
-
     return session;
   };
 
@@ -100,11 +104,10 @@ export default function PresentationsPage() {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col h-full space-y-4 md:space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="md:text-xl font-bold text-gray-800">Presentations</h2>
-
         <button
           onClick={() => setIsUploadOpen(true)}
           className="flex items-center space-x-2 bg-orange-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-700"
@@ -115,14 +118,13 @@ export default function PresentationsPage() {
       </div>
 
       {/* Layout */}
-      <div className="grid grid-cols-12 gap-6">
+      <div className="flex-1 flex flex-col xl:flex-row gap-4 md:gap-6 xl:min-h-0">
         {/* LEFT PANEL */}
-        <div className="col-span-12 lg:col-span-4 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">File Name</h3>
           </div>
-
-          <div className="divide-y">
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
             {presentations.map((item, index) => (
               <div
                 key={item.id}
@@ -130,8 +132,10 @@ export default function PresentationsPage() {
                   setActivePresentation(index);
                   setActiveSlide(0);
                 }}
-                className={`px-3 md:px-4 py-2 cursor-pointer flex items-center justify-between border-gray-200 hover:bg-gray-50 ${
-                  activePresentation === index ? "bg-orange-50" : ""
+                className={`px-3 md:px-4 py-2 cursor-pointer flex items-center justify-between border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition-all duration-200 ${
+                  index === activePresentation
+                    ? "bg-orange-50 border border-orange-100 text-gray-900"
+                    : "hover:bg-gray-50 border border-transparent"
                 }`}
               >
                 <div className="flex items-center space-x-3">
@@ -148,10 +152,8 @@ export default function PresentationsPage() {
                       <FileText size={18} />
                     )}
                   </div>
-
-                  <span className="text-sm text-gray-700">{item.name}</span>
+                  <span className="text-xs text-gray-700">{item.name}</span>
                 </div>
-
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -169,23 +171,24 @@ export default function PresentationsPage() {
         </div>
 
         {/* MIDDLE PANEL */}
-        <div className="col-span-12 lg:col-span-3 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">Slides</h3>
           </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 p-3 md:p-4">
+          <div className="grid grid-cols-2 gap-4 p-3 md:p-4 overflow-y-auto">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
                 onClick={() => setActiveSlide(index)}
-                className={`cursor-pointer border rounded-xl overflow-hidden ${
-                  activeSlide === index
-                    ? "border-orange-500"
-                    : "border-gray-100"
-                }`}
+                className="cursor-pointer"
               >
-                <div className="aspect-video relative">
+                <div
+                  className={`aspect-video relative bg-gray-100 rounded-xl overflow-hidden border ${
+                    activeSlide === index
+                      ? "border-orange-500"
+                      : "border-gray-100"
+                  }`}
+                >
                   <Image src={slide.url} alt="" fill className="object-cover" />
                 </div>
               </div>
@@ -194,10 +197,9 @@ export default function PresentationsPage() {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="col-span-12 lg:col-span-5 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+        <div className="w-full xl:flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">Preview</h3>
-
             <div className="flex space-x-2">
               <button
                 onClick={() =>
@@ -209,7 +211,6 @@ export default function PresentationsPage() {
               >
                 <ChevronLeft size={16} />
               </button>
-
               <button
                 onClick={() =>
                   setActiveSlide((prev) =>
@@ -222,9 +223,8 @@ export default function PresentationsPage() {
               </button>
             </div>
           </div>
-
           {selectedSlide && (
-            <div className="flex-1 flex flex-col justify-between">
+            <div className="flex-1 flex flex-col justify-between overflow-y-auto">
               <div className="p-3 md:p-4">
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
                   <Image
@@ -235,25 +235,23 @@ export default function PresentationsPage() {
                   />
                 </div>
               </div>
-
-              {/* Buttons */}
-              <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
-                <button
-                  onClick={() => {
-                    handlePresent();
-                    setIsPresenting(true);
-                  }}
-                  className="flex-1 text-sm bg-orange-600 text-white font-semibold px-2 py-3 rounded-xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/30"
-                >
-                  Present Screen
-                </button>
-
-                <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
-                  Blank Screen
-                </button>
-              </div>
             </div>
           )}
+          {/* Buttons */}
+          <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
+            <button
+              onClick={() => {
+                handlePresent();
+                setIsPresenting(true);
+              }}
+              className="flex-1 text-sm bg-orange-600 text-white font-semibold px-2 py-3 rounded-xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/30"
+            >
+              Present Screen
+            </button>
+            <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
+              Blank Screen
+            </button>
+          </div>
         </div>
       </div>
 

@@ -163,8 +163,13 @@ export default function LiveSessionView({ onClose }: Props) {
           ) : (
             <motion.div
               key="live"
-              className="w-full h-full flex flex-col items-center justify-center bg-white rounded-3xl shadow-2xl p-6 md:p-16 text-center"
+              className="w-full h-full flex flex-col items-center justify-center rounded-3xl shadow-2xl p-6 md:p-16 text-center relative overflow-hidden"
             >
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-10 blur-[10px] opacity-70"
+                style={{ backgroundImage: "url('/login-bg.webp')" }}
+              />
+
               {/* Lyrics Title */}
               {projection.type === "lyrics" && projection.title && (
                 <h1 className="text-sm uppercase tracking-[0.4em] text-gray-400 mb-10">

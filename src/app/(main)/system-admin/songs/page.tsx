@@ -134,7 +134,6 @@ export default function GlobalSongsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="md:text-xl font-bold text-gray-800">Songs</h2>
-
         <button
           onClick={() => {
             resetForm();
@@ -146,7 +145,6 @@ export default function GlobalSongsPage() {
           <span className="text-sm">Add Song</span>
         </button>
       </div>
-
       {/* Table */}
       <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="overflow-x-auto">
@@ -156,15 +154,12 @@ export default function GlobalSongsPage() {
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Song Title
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Artist
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase">
                   Music Sheet
                 </th>
-
                 <th className="px-3 md:px-6 py-4 text-xs font-semibold text-gray-400 uppercase text-right">
                   Actions
                 </th>
@@ -177,15 +172,12 @@ export default function GlobalSongsPage() {
                   <td className="px-3 md:px-6 py-4 text-sm text-gray-700">
                     {song.title}
                   </td>
-
                   <td className="px-3 md:px-6 py-4 text-sm text-gray-500">
                     {song.artist}
                   </td>
-
                   <td className="px-3 md:px-6 py-4 text-sm text-gray-500">
                     {song.sheets.length} attachment
                   </td>
-
                   <td className="px-3 md:px-6 py-4 flex justify-end space-x-3">
                     <button
                       onClick={() => openEditModal(song)}
@@ -193,7 +185,6 @@ export default function GlobalSongsPage() {
                     >
                       <Pencil size={18} />
                     </button>
-
                     <button
                       onClick={() => deleteSong(song.id)}
                       className="text-gray-400 hover:text-red-500"
@@ -225,7 +216,6 @@ export default function GlobalSongsPage() {
               <h3 className="text-lg md:text-xl font-bold text-gray-900">
                 Add Song
               </h3>
-
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="p-2 hover:bg-gray-200 rounded-full text-gray-500"
@@ -233,7 +223,6 @@ export default function GlobalSongsPage() {
                 <X size={20} />
               </button>
             </div>
-
             {/* Tabs */}
             <div className="flex border-b border-gray-100">
               <button
@@ -246,7 +235,6 @@ export default function GlobalSongsPage() {
               >
                 Manual Entry
               </button>
-
               <button
                 onClick={() => setActiveTab("file")}
                 className={`flex-1 py-3 text-sm font-semibold ${
@@ -258,7 +246,6 @@ export default function GlobalSongsPage() {
                 Upload File
               </button>
             </div>
-
             {/* Scrollable Content */}
             <div className="p-4 md:p-6 space-y-6 overflow-y-auto max-h-[65vh]">
               {activeTab === "details" && (
@@ -268,7 +255,6 @@ export default function GlobalSongsPage() {
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Number
                     </label>
-
                     <input
                       type="text"
                       placeholder="Number"
@@ -277,13 +263,11 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* Title */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Title
                     </label>
-
                     <input
                       type="text"
                       placeholder="Title"
@@ -292,13 +276,11 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* Author */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Author
                     </label>
-
                     <input
                       type="text"
                       placeholder="Author"
@@ -307,13 +289,11 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* Scripture */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Scripture
                     </label>
-
                     <input
                       type="text"
                       placeholder="Scripture"
@@ -322,13 +302,11 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* copyright */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Copyright
                     </label>
-
                     <input
                       type="text"
                       placeholder="Copyright"
@@ -337,13 +315,11 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* cclinum */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Cclinum
                     </label>
-
                     <input
                       type="text"
                       placeholder="Cclinum"
@@ -352,14 +328,12 @@ export default function GlobalSongsPage() {
                       className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
-
                   {/* Elements */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                         Verses
                       </label>
-
                       <button
                         type="button"
                         onClick={addElement}
@@ -369,7 +343,6 @@ export default function GlobalSongsPage() {
                         Add
                       </button>
                     </div>
-
                     {elements.map((el, index) => (
                       <div key={index} className="flex gap-2">
                         <input
@@ -379,7 +352,6 @@ export default function GlobalSongsPage() {
                           placeholder="Element"
                           className="flex-1 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                         />
-
                         <button
                           onClick={() => removeElement(index)}
                           className="text-gray-400 hover:text-red-500"
@@ -391,36 +363,29 @@ export default function GlobalSongsPage() {
                   </div>
                 </div>
               )}
-
               {activeTab === "file" && (
                 <div className="space-y-3">
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                     Song File
                   </label>
-
                   <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-orange-400 transition">
                     <Upload size={32} className="text-gray-400 mb-2" />
-
                     <p className="text-sm font-medium text-gray-700">
                       Drag & drop song file
                     </p>
-
                     <p className="text-xs text-gray-400">or click to upload</p>
-
                     <input
                       type="file"
                       accept=".mp3,.wav,.aac"
                       className="hidden"
                     />
                   </label>
-
                   <p className="text-[10px] text-gray-400 uppercase tracking-widest">
                     Supported formats: .xls,.xlsx,.csv
                   </p>
                 </div>
               )}
             </div>
-
             {/* Footer */}
             <div className="p-4 md:p-6 border-t border-gray-100 flex justify-end space-x-4 bg-gray-50/30">
               <button
@@ -429,7 +394,6 @@ export default function GlobalSongsPage() {
               >
                 Cancel
               </button>
-
               <button
                 onClick={addSong}
                 className="px-8 py-2.5 bg-orange-600 text-white rounded-xl text-sm font-bold hover:bg-orange-700 shadow-xl shadow-orange-600/30"

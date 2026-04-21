@@ -2,13 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  Upload,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Presentation,
-} from "lucide-react";
+import { Upload, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import UploadMediaModal from "@/components/UploadMediaModal";
 import MediaProjectionScreen from "@/components/MediaProjectionScreen";
 
@@ -44,6 +38,36 @@ export default function MediaPage() {
         },
         {
           id: 3,
+          type: "Video",
+          url: "https://www.w3schools.com/html/mov_bbb.mp4",
+        },
+        {
+          id: 4,
+          type: "Image",
+          url: "https://picsum.photos/600/400?random=11",
+        },
+        {
+          id: 5,
+          type: "Image",
+          url: "https://picsum.photos/600/400?random=12",
+        },
+        {
+          id: 6,
+          type: "Video",
+          url: "https://www.w3schools.com/html/mov_bbb.mp4",
+        },
+        {
+          id: 7,
+          type: "Image",
+          url: "https://picsum.photos/600/400?random=11",
+        },
+        {
+          id: 8,
+          type: "Image",
+          url: "https://picsum.photos/600/400?random=12",
+        },
+        {
+          id: 9,
           type: "Video",
           url: "https://www.w3schools.com/html/mov_bbb.mp4",
         },
@@ -102,12 +126,10 @@ export default function MediaPage() {
 
   const getOrCreateSession = () => {
     let session = localStorage.getItem("liveSessionId");
-
     if (!session) {
       session = "session_" + Date.now();
       localStorage.setItem("liveSessionId", session);
     }
-
     return session;
   };
 
@@ -133,11 +155,10 @@ export default function MediaPage() {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col h-full space-y-4 md:space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="md:text-xl font-bold text-gray-800">Media Library</h2>
-
         <button
           onClick={() => setIsUploadOpen(true)}
           className="flex items-center space-x-2 bg-orange-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-700"
@@ -148,16 +169,15 @@ export default function MediaPage() {
       </div>
 
       {/* Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="flex-1 flex flex-col xl:flex-row gap-4 md:gap-6 xl:min-h-0">
         {/* LEFT PANEL */}
-        <div className="lg:col-span-3 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">
               Media Bundles
             </h3>
           </div>
-
-          <div className="space-y-2 p-2">
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
             {bundles.map((bundle, index) => (
               <button
                 key={bundle.id}
@@ -178,23 +198,24 @@ export default function MediaPage() {
         </div>
 
         {/* MIDDLE PANEL */}
-        <div className="lg:col-span-4 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">Media Items</h3>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 p-3 md:p-4">
+          <div className="grid grid-cols-2 gap-4 p-3 md:p-4 overflow-y-auto">
             {mediaItems.map((item, index) => (
               <div
                 key={item.id}
                 onClick={() => setCurrentIndex(index)}
-                className={`cursor-pointer rounded-xl overflow-hidden border ${
-                  index === currentIndex
-                    ? "border-orange-500"
-                    : "border-gray-100"
-                }`}
+                className="cursor-pointer"
               >
-                <div className="aspect-video relative bg-gray-100">
+                <div
+                  className={`aspect-video relative bg-gray-100 rounded-xl overflow-hidden border ${
+                    index === currentIndex
+                      ? "border-orange-500"
+                      : "border-gray-100"
+                  }`}
+                >
                   {item.type === "Image" ? (
                     <Image
                       src={item.url}
@@ -208,7 +229,6 @@ export default function MediaPage() {
                       className="w-full h-full object-cover"
                     />
                   )}
-
                   {item.type === "Video" && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Play
@@ -224,12 +244,11 @@ export default function MediaPage() {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="lg:col-span-5 overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+        <div className="w-full xl:flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">
               Media Preview
             </h3>
-
             <div className="flex space-x-2">
               <button
                 onClick={handlePrev}
@@ -237,7 +256,6 @@ export default function MediaPage() {
               >
                 <ChevronLeft size={16} />
               </button>
-
               <button
                 onClick={handleNext}
                 className="p-1.5 hover:bg-gray-100 rounded-lg"
@@ -246,9 +264,8 @@ export default function MediaPage() {
               </button>
             </div>
           </div>
-
           {selectedMedia && (
-            <div className="flex-1 flex flex-col justify-between">
+            <div className="flex-1 flex flex-col justify-between overflow-y-auto">
               <div className="p-3 md:p-4">
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
                   {selectedMedia.type === "Image" ? (
@@ -267,36 +284,34 @@ export default function MediaPage() {
                   )}
                 </div>
               </div>
-
-              {/* Buttons */}
-              <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
-                {/* PRESENT SCREEN */}
-                <button
-                  onClick={() => {
-                    const session = getOrCreateSession();
-                    setSessionId(session);
-                    localStorage.setItem(`blankScreen_${session}`, "false");
-                    localStorage.setItem(
-                      `currentProjection_${session}`,
-                      JSON.stringify({
-                        type: "media",
-                        mediaItems: mediaItems,
-                        currentIndex: currentIndex,
-                      }),
-                    );
-                    setIsPresenting(true);
-                  }}
-                  className="flex-1 text-sm bg-orange-600 text-white font-semibold px-2 py-3 rounded-xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/30"
-                >
-                  Present Screen
-                </button>
-
-                <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
-                  Blank Screen
-                </button>
-              </div>
             </div>
           )}
+          {/* Buttons */}
+          <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
+            {/* PRESENT SCREEN */}
+            <button
+              onClick={() => {
+                const session = getOrCreateSession();
+                setSessionId(session);
+                localStorage.setItem(`blankScreen_${session}`, "false");
+                localStorage.setItem(
+                  `currentProjection_${session}`,
+                  JSON.stringify({
+                    type: "media",
+                    mediaItems: mediaItems,
+                    currentIndex: currentIndex,
+                  }),
+                );
+                setIsPresenting(true);
+              }}
+              className="flex-1 text-sm bg-orange-600 text-white font-semibold px-2 py-3 rounded-xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/30"
+            >
+              Present Screen
+            </button>
+            <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
+              Blank Screen
+            </button>
+          </div>
         </div>
       </div>
 

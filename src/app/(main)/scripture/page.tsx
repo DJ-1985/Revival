@@ -113,9 +113,7 @@ export default function ScripturePage() {
             key={version}
             onClick={() => {
               setBibleVersion(version);
-
               if (!sessionId) return;
-
               updateProjection(selectedVerseIndex, sessionId);
             }}
             className={`px-4 md:px-6 py-2 rounded-xl text-sm font-semibold transition-all ${
@@ -145,11 +143,8 @@ export default function ScripturePage() {
                 key={i}
                 onClick={() => {
                   setSelectedVerseIndex(i);
-
                   if (!sessionId) return;
-
                   localStorage.setItem(`blankScreen_${sessionId}`, "false");
-
                   updateProjection(i, sessionId);
                 }}
                 className={`w-full text-left p-3 md:p-4 rounded-xl transition-all ${
@@ -216,18 +211,14 @@ export default function ScripturePage() {
                 onClick={() => {
                   const session = getOrCreateSession();
                   setSessionId(session);
-
                   localStorage.setItem(`blankScreen_${session}`, "false");
-
                   updateProjection(selectedVerseIndex, session);
-
                   setIsProjectionOpen(true);
                 }}
                 className="flex-1 text-sm bg-orange-600 text-white font-semibold px-2 py-3 rounded-xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/30"
               >
                 Present Screen
               </button>
-
               <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
                 Blank Screen
               </button>

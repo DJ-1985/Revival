@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Presentation } from "lucide-react";
+import { Search } from "lucide-react";
 import LyricsProjectionScreen from "@/components/LyricsProjectionScreen";
 
 type Song = {
@@ -127,17 +127,15 @@ export default function LyricsPage() {
       {/* Layout */}
       <div className="flex-1 flex flex-col xl:flex-row gap-4 md:gap-6 xl:min-h-0">
         {/* LEFT - Songs */}
-        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden max-h-[300px] xl:min-h-[400px]">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">
               Songs ({filteredSongs.length})
             </h3>
           </div>
-
           <div className="flex-1 overflow-y-auto p-2 space-y-1">
             {filteredSongs.map((song) => {
               const isActive = selectedSongId === song.id;
-
               return (
                 <button
                   key={song.id}
@@ -161,7 +159,6 @@ export default function LyricsPage() {
                     >
                       {song.number}
                     </span>
-
                     <span
                       className={`text-sm font-medium truncate ${
                         isActive ? "text-gray-900" : "text-gray-600"
@@ -177,11 +174,10 @@ export default function LyricsPage() {
         </div>
 
         {/* MIDDLE - Verses */}
-        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden max-h-[300px] xl:min-h-[400px]">
+        <div className="w-full xl:w-72 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden h-auto max-xl:max-h-[300px] xl:max-h-none xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">Verses</h3>
           </div>
-
           <div className="flex-1 overflow-y-auto p-2 space-y-2">
             {selectedSong.verses.map((verse, index) => {
               const isActive = index === currentVerseIndex;
@@ -203,27 +199,23 @@ export default function LyricsPage() {
         </div>
 
         {/* RIGHT - Preview */}
-        <div className="w-full xl:flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden max-h-[300px] min-h-[400px]">
+        <div className="w-full xl:flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden xl:min-h-none min-xl:min-h-[300px]">
           <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50/30">
             <h3 className="text-sm font-semibold text-gray-700">
               Lyrics Preview
             </h3>
           </div>
-
           <div className="flex-1 p-3 md:p-4 flex flex-col items-center xl:justify-center text-center space-y-4 overflow-y-auto">
             <h2 className="text-1xl md:text-2xl font-bold">
               {selectedSong.title}
             </h2>
-
             <p className="text-1xl md:text-xl italic text-gray-700 whitespace-pre-line">
               {selectedSong.verses[currentVerseIndex]}
             </p>
-
             <div className="text-xs uppercase tracking-widest text-gray-400">
               Slide {currentVerseIndex + 1} / {selectedSong.verses.length}
             </div>
           </div>
-
           {/* Buttons */}
           <div className="p-3 md:p-4 bg-gray-50/50 border-t border-gray-100 flex space-x-3">
             {/* PRESENT SCREEN */}
@@ -239,7 +231,6 @@ export default function LyricsPage() {
             >
               Present Screen
             </button>
-
             <button className="flex-1 bg-black text-white font-semibold px-2 py-3 text-sm rounded-xl hover:bg-gray-900 transition-all">
               Blank Screen
             </button>

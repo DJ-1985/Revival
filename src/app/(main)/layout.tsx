@@ -31,6 +31,7 @@ export default function DashboardLayout({
       const roleRoutes: Record<string, string[]> = {
         "System Admin": [
           "/dashboard",
+          "/profile",
           "/scripture",
           "/lyrics",
           "/announcements",

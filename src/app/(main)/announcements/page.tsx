@@ -76,7 +76,6 @@ export default function AnnouncementsPage() {
       session = "session_" + Date.now();
       localStorage.setItem("liveSessionId", session);
     }
-
     return session;
   };
 
